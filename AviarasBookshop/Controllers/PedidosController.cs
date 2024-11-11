@@ -22,8 +22,8 @@ namespace AviarasBookshop.Controllers
         // GET: Pedidos
         public async Task<IActionResult> Index()
         {
-            var aviarasLibraryContext = _context.Pedidos.Include(p => p.Cliente);
-            return View(await aviarasLibraryContext.ToListAsync());
+            var aviarasBookshopContext = _context.Pedidos.Include(p => p.Cliente);
+            return View(await aviarasBookshopContext.ToListAsync());
         }
 
         // GET: Pedidos/Details/5
@@ -48,7 +48,7 @@ namespace AviarasBookshop.Controllers
         // GET: Pedidos/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id");
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace AviarasBookshop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", pedido.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Email", pedido.ClienteId);
             return View(pedido);
         }
 
@@ -82,7 +82,7 @@ namespace AviarasBookshop.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", pedido.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Email", pedido.ClienteId);
             return View(pedido);
         }
 
@@ -118,7 +118,7 @@ namespace AviarasBookshop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", pedido.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Email", pedido.ClienteId);
             return View(pedido);
         }
 

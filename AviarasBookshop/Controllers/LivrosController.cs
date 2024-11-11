@@ -19,13 +19,13 @@ namespace AviarasBookshop.Controllers
             _context = context;
         }
 
-        // GET: Livroes
+        // GET: Livros
         public async Task<IActionResult> Index()
         {
             return View(await _context.Livros.ToListAsync());
         }
 
-        // GET: Livroes/Details/5
+        // GET: Livros/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,18 +43,18 @@ namespace AviarasBookshop.Controllers
             return View(livro);
         }
 
-        // GET: Livroes/Create
+        // GET: Livros/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Livroes/Create
+        // POST: Livros/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titulo,Categoria,Autor,Preco")] Livro livro)
+        public async Task<IActionResult> Create([Bind("Id,Titulo,Categoria,Preco")] Livro livro)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace AviarasBookshop.Controllers
             return View(livro);
         }
 
-        // GET: Livroes/Edit/5
+        // GET: Livros/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,12 +81,12 @@ namespace AviarasBookshop.Controllers
             return View(livro);
         }
 
-        // POST: Livroes/Edit/5
+        // POST: Livros/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Categoria,Autor,Preco")] Livro livro)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Categoria,Preco")] Livro livro)
         {
             if (id != livro.Id)
             {
@@ -116,7 +116,7 @@ namespace AviarasBookshop.Controllers
             return View(livro);
         }
 
-        // GET: Livroes/Delete/5
+        // GET: Livros/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace AviarasBookshop.Controllers
             return View(livro);
         }
 
-        // POST: Livroes/Delete/5
+        // POST: Livros/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

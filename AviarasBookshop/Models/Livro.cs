@@ -15,7 +15,7 @@
 
         public string Titulo { get; set; }
 
-        public CategoriaLivro Categoria { get; set; }
+        public String Categoria { get; set; }
 
         public string Autor {  get; set; }
 

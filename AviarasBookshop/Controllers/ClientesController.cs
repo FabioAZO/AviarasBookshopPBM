@@ -54,7 +54,7 @@ namespace AviarasBookshop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Email,NumeroTelefone,HistoricoCompras")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Email,NumeroTelefone")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace AviarasBookshop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Email,NumeroTelefone,HistoricoCompras")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Email,NumeroTelefone")] Cliente cliente)
         {
             if (id != cliente.Id)
             {

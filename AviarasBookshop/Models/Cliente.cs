@@ -14,8 +14,6 @@ namespace AviarasBookshop.Models
 
         public string NumeroTelefone { get; set; }
 
-        public string HistoricoCompras { get; set; }
-
         public ICollection<Pedido>? Pedidos { get; set; }
 
         public ICollection<Livro>? Livros { get; set; }  

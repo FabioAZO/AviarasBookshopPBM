@@ -15,11 +15,7 @@
 
             const booksContainer = document.getElementById("books-container");
             if (books.length > 0) {
-                let html = "<ul>";
-                books.forEach(book => {
-                    html += `<li>${book.title} - ${book.author}</li>`;
-                });
-                html += "</ul>";
+                let html = `<p>Há no total ${books.length} livro(s).</p>`;
                 booksContainer.innerHTML = html;
             } else {
                 booksContainer.innerHTML = "<p>Não há livros disponíveis.</p>";

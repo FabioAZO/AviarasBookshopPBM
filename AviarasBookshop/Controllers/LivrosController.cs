@@ -22,7 +22,7 @@ namespace AviarasBookshop.Controllers
         // GET: Livros
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Livros.ToListAsync());
+            return View(await _context.Livro.ToListAsync());
         }
 
         // GET: Livros/Details/5
@@ -33,7 +33,7 @@ namespace AviarasBookshop.Controllers
                 return NotFound();
             }
 
-            var livro = await _context.Livros
+            var livro = await _context.Livro
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (livro == null)
             {
@@ -73,7 +73,7 @@ namespace AviarasBookshop.Controllers
                 return NotFound();
             }
 
-            var livro = await _context.Livros.FindAsync(id);
+            var livro = await _context.Livro.FindAsync(id);
             if (livro == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace AviarasBookshop.Controllers
                 return NotFound();
             }
 
-            var livro = await _context.Livros
+            var livro = await _context.Livro
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (livro == null)
             {
@@ -139,10 +139,10 @@ namespace AviarasBookshop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var livro = await _context.Livros.FindAsync(id);
+            var livro = await _context.Livro.FindAsync(id);
             if (livro != null)
             {
-                _context.Livros.Remove(livro);
+                _context.Livro.Remove(livro);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +151,7 @@ namespace AviarasBookshop.Controllers
 
         private bool LivroExists(int id)
         {
-            return _context.Livros.Any(e => e.Id == id);
+            return _context.Livro.Any(e => e.Id == id);
         }
     }
 }

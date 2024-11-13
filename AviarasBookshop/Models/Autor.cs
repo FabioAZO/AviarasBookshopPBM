@@ -8,6 +8,7 @@
         public string Nacionalidade { get; set; }
 
         // Many-to-many relationship with Livro
-        public ICollection<Livro> Livros { get; set; }
+
+        public ICollection<Livro>? Livros { get; set; }
     }
 }

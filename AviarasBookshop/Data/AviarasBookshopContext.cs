@@ -10,7 +10,7 @@ namespace AviarasBookshop.Data
         }
         public DbSet<Autor> Autores { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<Livro> Livro { get; set; }
+        public DbSet<Livro> Livros { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<Book> Books { get; set; }
 
@@ -21,9 +21,9 @@ namespace AviarasBookshop.Data
 
             // Configuração para relacionamento N:M entre Autor e Livro
             modelBuilder.Entity<Livro>()
-                .HasMany(l => l.Autores)
+                .HasOne(l => l.Autor)
                 .WithMany(a => a.Livros)
-                .UsingEntity(j => j.ToTable("LivroAutor"));
+                .HasForeignKey(j => j.AutorId);
 
             // Outras configurações para relacionamento N:M entre Cliente e Livro, Pedido e Livro
             modelBuilder.Entity<Cliente>()
@@ -31,10 +31,15 @@ namespace AviarasBookshop.Data
                 .WithMany(c => c.Clientes)
                 .UsingEntity(ntable => ntable.ToTable("ClienteLivro"));
 
+            // modelBuilder.Entity<Pedido>()
+            //.HasMany(l => l.Livros)
+            //.WithMany(p => p.Pedidos)
+            //.UsingEntity(ntable => ntable.ToTable("PedidoLivro"));
+
             modelBuilder.Entity<Pedido>()
-                .HasMany(l => l.Livros)
-                .WithMany(p => p.Pedidos)
-                .UsingEntity(ntable => ntable.ToTable("PedidoLivro"));
+                .HasOne(r => r.Livro)
+                .WithMany(c => c.Pedidos)
+                .HasForeignKey(r => r.LivroId);
 
             modelBuilder.Entity<Pedido>()
                 .HasOne(r => r.Cliente)

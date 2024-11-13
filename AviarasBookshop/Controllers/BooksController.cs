@@ -20,7 +20,7 @@ namespace AviarasBookshop.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Livro>>> GetBooks()
         {
-            return await _context.Livro.ToListAsync();
+            return await _context.Livros.ToListAsync();
         }
     }
 }

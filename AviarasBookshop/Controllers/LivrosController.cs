@@ -22,7 +22,8 @@ namespace AviarasBookshop.Controllers
         // GET: Livros
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Livro.ToListAsync());
+            var aviarasBookshopContext = _context.Livros.Include(l => l.Autor);
+            return View(await aviarasBookshopContext.ToListAsync());
         }
 
         // GET: Livros/Details/5
@@ -33,7 +34,8 @@ namespace AviarasBookshop.Controllers
                 return NotFound();
             }
 
-            var livro = await _context.Livro
+            var livro = await _context.Livros
+                .Include(l => l.Autor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (livro == null)
             {
@@ -46,6 +48,7 @@ namespace AviarasBookshop.Controllers
         // GET: Livros/Create
         public IActionResult Create()
         {
+            ViewData["AutorId"] = new SelectList(_context.Autores, "Id", "Nome");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace AviarasBookshop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titulo,Categoria,Preco")] Livro livro)
+        public async Task<IActionResult> Create([Bind("Id,Titulo,Categoria,Preco,AutorId")] Livro livro)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace AviarasBookshop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AutorId"] = new SelectList(_context.Autores, "Id", "Nome", livro.AutorId);
             return View(livro);
         }
 
@@ -73,11 +77,12 @@ namespace AviarasBookshop.Controllers
                 return NotFound();
             }
 
-            var livro = await _context.Livro.FindAsync(id);
+            var livro = await _context.Livros.FindAsync(id);
             if (livro == null)
             {
                 return NotFound();
             }
+            ViewData["AutorId"] = new SelectList(_context.Autores, "Id", "Nome", livro.AutorId);
             return View(livro);
         }
 
@@ -86,7 +91,7 @@ namespace AviarasBookshop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Categoria,Preco")] Livro livro)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Categoria,Preco,AutorId")] Livro livro)
         {
             if (id != livro.Id)
             {
@@ -113,6 +118,7 @@ namespace AviarasBookshop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AutorId"] = new SelectList(_context.Autores, "Id", "Nome", livro.AutorId);
             return View(livro);
         }
 
@@ -124,7 +130,8 @@ namespace AviarasBookshop.Controllers
                 return NotFound();
             }
 
-            var livro = await _context.Livro
+            var livro = await _context.Livros
+                .Include(l => l.Autor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (livro == null)
             {
@@ -139,10 +146,10 @@ namespace AviarasBookshop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var livro = await _context.Livro.FindAsync(id);
+            var livro = await _context.Livros.FindAsync(id);
             if (livro != null)
             {
-                _context.Livro.Remove(livro);
+                _context.Livros.Remove(livro);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +158,7 @@ namespace AviarasBookshop.Controllers
 
         private bool LivroExists(int id)
         {
-            return _context.Livro.Any(e => e.Id == id);
+            return _context.Livros.Any(e => e.Id == id);
         }
     }
 }

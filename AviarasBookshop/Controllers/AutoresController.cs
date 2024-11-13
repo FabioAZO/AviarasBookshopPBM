@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AviarasBookshop.Data;
 using AviarasBookshop.Models;
+using AviarasBookshop.Services;
 
 namespace AviarasBookshop.Controllers
 {
     public class AutoresController : Controller
     {
         private readonly AviarasBookshopContext _context;
+        private readonly CountryService _countryService;
 
         public AutoresController(AviarasBookshopContext context)
         {
             _context = context;
+            _countryService = new CountryService();
         }
 
         // GET: Autores
@@ -44,8 +47,10 @@ namespace AviarasBookshop.Controllers
         }
 
         // GET: Autores/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var countries = await _countryService.GetCountriesAsync();
+            ViewBag.Countries = countries;
             return View();
         }
 
@@ -62,6 +67,7 @@ namespace AviarasBookshop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Countries = await _countryService.GetCountriesAsync();
             return View(autor);
         }
 

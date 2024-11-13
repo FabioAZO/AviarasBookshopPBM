@@ -22,7 +22,7 @@ namespace AviarasBookshop.Controllers
         // GET: Pedidos
         public async Task<IActionResult> Index()
         {
-            var aviarasBookshopContext = _context.Pedidos.Include(p => p.Cliente);
+            var aviarasBookshopContext = _context.Pedidos.Include(p => p.Cliente).Include(p => p.Livro);
             return View(await aviarasBookshopContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace AviarasBookshop.Controllers
 
             var pedido = await _context.Pedidos
                 .Include(p => p.Cliente)
+                .Include(p => p.Livro)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pedido == null)
             {
@@ -49,6 +50,7 @@ namespace AviarasBookshop.Controllers
         public IActionResult Create()
         {
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome");
+            ViewData["LivroId"] = new SelectList(_context.Livros, "Id", "Titulo");
             return View();
         }
 
@@ -57,7 +59,7 @@ namespace AviarasBookshop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Status,PrecoTotal,LivrosLista,ClienteId")] Pedido pedido)
+        public async Task<IActionResult> Create([Bind("Id,Status,PrecoTotal,LivrosLista,ClienteId,LivroId")] Pedido pedido)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +67,8 @@ namespace AviarasBookshop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Email", pedido.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome", pedido.ClienteId);
+            ViewData["LivroId"] = new SelectList(_context.Livros, "Id", "Titulo", pedido.LivroId);
             return View(pedido);
         }
 
@@ -82,7 +85,8 @@ namespace AviarasBookshop.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Email", pedido.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome", pedido.ClienteId);
+            ViewData["LivroId"] = new SelectList(_context.Livros, "Id", "Titulo", pedido.LivroId);
             return View(pedido);
         }
 
@@ -91,7 +95,7 @@ namespace AviarasBookshop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Status,PrecoTotal,LivrosLista,ClienteId")] Pedido pedido)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Status,PrecoTotal,LivrosLista,ClienteId,LivroId")] Pedido pedido)
         {
             if (id != pedido.Id)
             {
@@ -118,7 +122,8 @@ namespace AviarasBookshop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Email", pedido.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome", pedido.ClienteId);
+            ViewData["LivroId"] = new SelectList(_context.Livros, "Id", "Titulo", pedido.LivroId);
             return View(pedido);
         }
 
@@ -132,6 +137,7 @@ namespace AviarasBookshop.Controllers
 
             var pedido = await _context.Pedidos
                 .Include(p => p.Cliente)
+                .Include(p => p.Livro)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pedido == null)
             {
